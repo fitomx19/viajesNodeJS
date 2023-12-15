@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Viajes</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Agrega aquí tus estilos adicionales si es necesario -->
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+    <a class="navbar-brand" href="#">Viajes</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Inicio <span class="sr-only">(current)</span></a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" href="#">Mis Viajes</a>
+        </li>
+         
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Cerrar Sesión</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+    <div class="container mt-5">
+        <center>
+            <h1 class="display-4">Hola {{user.nombre}}</h1>
+            <br>
+            <p >Bienvenido a nuestra plataforma de viajes. Explora y planifica estas aventuras que tenemos para ti</p>
+        </center>
+    <div class="card-deck">
+      <!-- Card 1 -->
+<div class="card">
+  <img src="https://lh3.googleusercontent.com/KJoUrsJtAwnqSRgzSv1BNP2jegk6DwM4ZHfqJnIcfA_VPDCSyd1VP3d2IMDvry3ybZpwI2RMWxUIOs6yLkyJ95AYpY3nDy-kvk8Yic4e_XJ6VlUwfJwQwD4PKPonx-6Kzw=w1280" class="card-img-top" alt="Plan Ixchel">
+  <div class="card-body">
+    <h5 class="card-title">Plan Ixchel</h5>
+    <p class="card-text">
+      <strong>Hospedaje:</strong> 4 días 3 noches<br>
+      <strong>Viaje redondo:</strong> desde CDMX a Yucatán (clase turista)<br>
+      <strong>Transporte:</strong> completo<br>
+      <strong>Guía turístico:</strong> incluido<br>
+      <strong>Desayuno y cena:</strong> tradicional<br>
+      <strong>Día 1:</strong> Anillo de cenotes<br>
+      <strong>Día 2:</strong> Hopelchén<br>
+      <strong>Día 3:</strong> Bacalar<br>
+      <strong>Día 4:</strong> Chichén Itzá<br>
+
+      <strong class="display-4">$8,900 p/persona</strong>
+      <hr>
+      <a href="#" class="btn btn-success btn-lg btn-block" data-toggle="modal" data-target="#compraModal">Comprar</a>
+
+    </p>
+  </div>
+</div>
+
+
+
+      <!-- Card 2 -->
+    <div class="card">
+  <img src="https://lh4.googleusercontent.com/vJn3nWuV2HpZGjkGHJdrLxtFmkTDTFgO0BJx3N--UIIgivldua-EP_qviDiEs22DSEUWtmItT_B9QN6Wwb6FiwuNuZKz9YwWfZjrgdwqHhg1sFDj19dMwEcDPkiL2GI6kw=w1280" class="card-img-top" alt="Plan Mactzil">
+  <div class="card-body">
+    <h5 class="card-title">Plan Mactzil</h5>
+    <p class="card-text">
+      <strong>Hospedaje:</strong> 4 días 3 noches<br>
+      <strong>Viaje redondo:</strong> desde CDMX a Yucatán (clase turista)<br>
+      <strong>Transporte:</strong> completo<br>
+      <strong>Guía turístico:</strong> incluido<br>
+      <strong>Desayuno:</strong> tradicional<br>
+      <strong>Día 1:</strong> Chichén Itzá<br>
+      <strong>Día 2:</strong> Bacalar<br>
+      <strong>Día 3:</strong> Hopelchén<br>
+      <strong>Día 4:</strong> Libre en Mérida
+      <br>
+      <strong class="display-4">$20,600 p/persona</strong>
+      <hr>
+      <a href="#" class="btn btn-success btn-lg btn-block" data-toggle="modal" data-target="#compraModal">Comprar</a>
+
+    </p>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- Modal -->
+<!-- Modal -->
+<div class="modal fade" id="compraModal" tabindex="-1" role="dialog" aria-labelledby="compraModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="compraModalLabel">Procedimiento de Compra</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Contenido del modal -->
+        <p>Hola, {{user.nombre}} {{user.apellido}}. Gracias por tu interés en el Plan Ixchel. Aquí está el procedimiento de compra:</p>
+        <form action="/procesar-compra" method="post">
+          <div class="form-group">
+            <label for="cantidadPersonas">Cantidad de personas:</label>
+            <input type="number" class="form-control" id="cantidadPersonas" name="cantidadPersonas" required>
+          </div>
+          <div class="form-group">
+            <label for="fechaViaje">Fecha deseada de viaje:</label>
+            <input type="date" class="form-control" id="fechaViaje" name="fechaViaje" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Completar Compra</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>
