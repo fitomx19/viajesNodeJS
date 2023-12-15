@@ -27,7 +27,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(userRoutes);
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
   console.log(`Servidor en ejecución en http://localhost:${PORT}`);
 });
