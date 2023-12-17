@@ -77,17 +77,34 @@ const userController = {
 
     res.render('compra', { user: nombreUsuario });
   },
-
   procesarCompra: (req, res) => {
     const { cantidadPersonas, fechaViaje } = req.body;
-    const nombreUsuario = req.session.user; // Asegúrate de ajustar esto según cómo manejas las sesiones
-
-    // Aquí deberías procesar la información, por ejemplo, almacenarla en tu base de datos
-
-    // Luego, puedes redirigir al usuario a una página de confirmación o a donde desees
-    res.render('confirmacion', { user: nombreUsuario, cantidad: cantidadPersonas, fecha: fechaViaje });
+    const precio = 8900.0; // Establece el precio según tus requisitos
+  
+    // Obtener el usuario desde el modelo
+    userModel.getUser(req.session.user, (err, results) => {
+      if (err) {
+        console.error('Error al obtener el usuario:', err);
+        res.redirect('/login');
+      } else {
+        // Extraer el id del usuario de los resultados
+        console.log(results);
+        const idUsuario = results[0].iduser;
+  
+        // Guardar la compra en el modelo de viaje
+        viajeModel.guardarCompra(idUsuario, fechaViaje, cantidadPersonas, precio, (err) => {
+          if (err) {
+            // Manejo de errores, por ejemplo, redirigir a una página de error
+            res.render('error', { error: 'Error al procesar la compra.' });
+          } else {
+            // Compra exitosa, puedes redirigir al usuario a una página de confirmación
+            res.render('confirmacion', { user: req.session.user, cantidad: cantidadPersonas, fecha: fechaViaje });
+          }
+        });
+      }
+    });
   },
-
+  
   
 };
 

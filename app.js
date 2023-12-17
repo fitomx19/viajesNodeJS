@@ -6,6 +6,9 @@ const session = require('express-session');
 const app = express();
 
 
+app.use(express.static('public')); 
+
+
 app.use(session({
   secret: 'viajes',  
   resave: true,

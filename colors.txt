@@ -1,0 +1,3 @@
+azulverde: #6cb7b3
+cafe: #9c6b4d
+flor: #d99eb2
