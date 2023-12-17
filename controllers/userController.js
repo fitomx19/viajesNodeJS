@@ -1,4 +1,5 @@
 const userModel = require('../models/userModel');
+const viajeModel = require('../models/viajeModel');
 
 const userController = {
   login: (req, res) => {
@@ -78,32 +79,68 @@ const userController = {
     res.render('compra', { user: nombreUsuario });
   },
   procesarCompra: (req, res) => {
-    const { cantidadPersonas, fechaViaje } = req.body;
-    const precio = 8900.0; // Establece el precio según tus requisitos
-  
+    const { cantidadPersonas, fechaViaje, precio } = req.body;
+    
+    console.log(req.body);
+    // Verificar que cantidadPersonas y precio sean números válidos
+    if (isNaN(cantidadPersonas) || isNaN(precio)) {
+        return res.render('error', { error: 'Cantidad de personas o precio inválido.' });
+    }
+    
+    // Calcular el precio total
+    let precioTotal = parseInt(cantidadPersonas) * parseInt(precio);
+
     // Obtener el usuario desde el modelo
-    userModel.getUser(req.session.user, (err, results) => {
+    userModel.getUser(req.session.user.correo, (err, results) => {
+        if (err) {
+            console.error('Error al obtener el usuario:', err);
+            return res.redirect('/login');
+        }
+
+        // Extraer el id del usuario de los resultados
+        const idUsuario = results[0].iduser;
+
+        // Guardar la compra en el modelo de viaje
+        viajeModel.guardarCompra(idUsuario, fechaViaje, cantidadPersonas, precioTotal, (err) => {
+            if (err) {
+                // Manejo de errores, redirigir a una página de error
+                return res.render('error', { error: 'Error al procesar la compra.' });
+            }
+
+            // Compra exitosa, redirigir al usuario a una página de confirmación
+            return res.render('confirmacion', { user: req.session.user, cantidad: cantidadPersonas, fecha: fechaViaje });
+        });
+    });
+},
+
+  
+
+  mostrarViajes: (req, res) => {
+  
+    userModel.getUser(req.session.user.correo, (err, results) => {
       if (err) {
         console.error('Error al obtener el usuario:', err);
         res.redirect('/login');
       } else {
-        // Extraer el id del usuario de los resultados
-        console.log(results);
+        
+         
+        
         const idUsuario = results[0].iduser;
-  
-        // Guardar la compra en el modelo de viaje
-        viajeModel.guardarCompra(idUsuario, fechaViaje, cantidadPersonas, precio, (err) => {
+        
+        viajeModel.obtenerViajes(idUsuario, (err,results) => {
           if (err) {
-            // Manejo de errores, por ejemplo, redirigir a una página de error
-            res.render('error', { error: 'Error al procesar la compra.' });
+           
+            res.render('error', { error: 'Error al obtener el usuario.' });
           } else {
-            // Compra exitosa, puedes redirigir al usuario a una página de confirmación
-            res.render('confirmacion', { user: req.session.user, cantidad: cantidadPersonas, fecha: fechaViaje });
+            console.log(results);
+            res.render('misViajes', {  viajes: results});
           }
         });
       }
-    });
+    }); 
+   
   },
+
   
   
 };

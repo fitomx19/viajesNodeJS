@@ -37,6 +37,17 @@ const viajeModel = {
       }
     });
   },
+  obtenerViajes: (idUsuario, callback) => {
+    const obtenerViajesQuery = 'SELECT * FROM viajes WHERE iduser = ?';
+    db.query(obtenerViajesQuery, [idUsuario], (err, results) => {
+      if (err) {
+        console.error('Error al obtener los viajes:', err);
+        callback(err);
+      } else {
+        callback(null, results);
+      }
+    });
+  },
 };
 
 module.exports = viajeModel;

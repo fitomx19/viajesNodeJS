@@ -17,6 +17,9 @@ router.get('/logout', userController.logout);
 
 router.get('/', userController.landing)
 
+router.get('/viajes', authenticateUser, userController.mostrarViajes)
+
+
 // Función para verificar la autenticación del usuario
 function authenticateUser(req, res, next) {
   
