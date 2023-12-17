@@ -32,17 +32,19 @@ const userController = {
   },
 
   handleRegister: (req, res) => {
-    const { correo,nombre,apellido,contra } = req.body;
+    const { correo, nombre, apellido, contra } = req.body;
 
-    userModel.createUser(correo,nombre,apellido,contra, (err, results) => {
-      if (err) {
-        console.error('Error al registrar el usuario:', err);
-        res.redirect('/register');
-      } else {
-        res.redirect('/login');
-      }
+    userModel.createUser(correo, nombre, apellido, contra, (err, results) => {
+        if (err) {
+            console.error('Error al registrar el usuario:', err);
+            res.redirect('/register');
+        } else {
+            // Renderizar la página de éxito
+            res.render('registroExitoso', { correo, nombre, apellido });
+        }
     });
-  },
+},
+
 
   dashboard: (req, res) => {
     // Aquí puedes acceder a la información del usuario desde req.session.user
